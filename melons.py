@@ -1,3 +1,5 @@
+from random import randrange
+
 class AbstractMelonOrder(object):
     """Abtract melon order class"""
 
@@ -10,10 +12,15 @@ class AbstractMelonOrder(object):
         self.order_type = order_type
         self.tax = tax
 
+    def get_base_price(self):
+        return randrange(5,10)
+
+
     def get_total(self):
         """Calculate price."""
 
-        base_price = 5
+        base_price = self.get_base_price()
+        
 
         if self.species == "Christmas_melons":
             base_price = base_price * 1.5
@@ -25,7 +32,7 @@ class AbstractMelonOrder(object):
         return total
 
     def mark_shipped(self):
-        """Set shipped to true."""
+        """Set shid to true."""
 
         self.shipped = True
 

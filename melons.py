@@ -3,14 +3,12 @@ from random import randrange
 class AbstractMelonOrder(object):
     """Abtract melon order class"""
 
-    def __init__(self, species, qty, order_type, tax):
+    def __init__(self, species, qty):
         """Initialize melon order attributes"""
 
         self.species = species
         self.qty = qty
         self.shipped = False
-        self.order_type = order_type
-        self.tax = tax
 
     def get_base_price(self):
         return randrange(5,10)
@@ -20,7 +18,7 @@ class AbstractMelonOrder(object):
         """Calculate price."""
 
         base_price = self.get_base_price()
-        
+        print base_price
 
         if self.species == "Christmas_melons":
             base_price = base_price * 1.5
@@ -40,8 +38,8 @@ class AbstractMelonOrder(object):
 class DomesticMelonOrder(AbstractMelonOrder):
     """A domestic (in the US) melon order."""
 
-    def __init__(self, species, qty): 
-        super(DomesticMelonOrder, self).__init__(species, qty, "domestic", 0.08)   
+    order_type = "domestic"
+    tax = 0.08   
         
         
     
@@ -49,9 +47,14 @@ class DomesticMelonOrder(AbstractMelonOrder):
 class InternationalMelonOrder(AbstractMelonOrder):
     """An international (non-US) melon order."""
 
+    order_type = "international"
+    tax = 0.17
+
     def __init__(self, species, qty, country_code): 
-        super(InternationalMelonOrder, self).__init__(species, qty, "international", 0.17)  
+        super(InternationalMelonOrder, self).__init__(species, qty)
+        
         self.country_code = country_code
+
         
       
     def get_country_code(self):
@@ -63,9 +66,8 @@ class InternationalMelonOrder(AbstractMelonOrder):
 class GovernmentMelonOrder(AbstractMelonOrder):
     """A Government (in the US) melon order."""
 
-    def __init__(self, species, qty): 
-        super(GovernmentMelonOrder, self).__init__(species, qty, "domestic", 0) 
-
+    order_type = "domestic"
+    tax = 0 
 
     def mark_inspection(self, passed):
         """Set pass inspection to passed"""

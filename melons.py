@@ -1,4 +1,6 @@
 from random import randrange
+import datetime
+
 
 class AbstractMelonOrder(object):
     """Abtract melon order class"""
@@ -10,15 +12,26 @@ class AbstractMelonOrder(object):
         self.qty = qty
         self.shipped = False
 
+
     def get_base_price(self):
-        return randrange(5,10)
+        """Gets current day and hour and based on that, calculates base price"""
+        
+        day = datetime.datetime.today().weekday()
+        hour = datetime.datetime.today().hour
+
+        base_price = randrange(5,10)
+
+        if day < 5 and (7 < hour < 12):
+            base_price += 4
+
+
+        return base_price
 
 
     def get_total(self):
         """Calculate price."""
 
         base_price = self.get_base_price()
-        print base_price
 
         if self.species == "Christmas_melons":
             base_price = base_price * 1.5
@@ -52,7 +65,7 @@ class InternationalMelonOrder(AbstractMelonOrder):
 
     def __init__(self, species, qty, country_code): 
         super(InternationalMelonOrder, self).__init__(species, qty)
-        
+
         self.country_code = country_code
 
         
